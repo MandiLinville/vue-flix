@@ -5,17 +5,18 @@
   <meta charset="UTF-8">
   <title>VueFlix</title>
   <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
+
+
 </head>
 
 <body class="container">
 
   <div id="vue-flix">
-    <div class="panel panel-default">
+    <div class="panel panel-danger">
       <div class="panel-heading">
-        <h1>FIND YOUR FLIX</h1>
+       <h1><strong>FIND YOUR FLIX<strong></h1>
       </div>
       <div class="panel-body">
-        <button @click="reset">RESET EVERYTING</button>
         <form @submit.prevent="search">
           <select v-model="category">
             <option value="actor">Actor</option>
@@ -24,15 +25,16 @@
           </select>
           <input type="text" v-model="query" />
           <button type="submit">FIND</button>
+          <button @click="reset">RESET EVERYTING</button>
         </form>
       </div>
     </div>
 
     <div class="row">
-      <div class="col-sm-12">
-        <div class="panel panel-default">
+      <div class="col-sm-6">
+        <div class="panel panel-danger">
           <div class="panel-heading">
-            <h3>RESULTS</h3>
+            <center><h3>RESULTS</h3><center>
             <p>Now Viewing result for {{query}}</p>
 
           </div>
@@ -55,14 +57,16 @@
               <p>
                 <b>Cast:</b> {{details.show_cast}}
               </p>
-              <button @click="clearDetails">BACK</button>
             </div>
-
             <div v-if="movies.length > 0">
-              <ul class="list-group"  v-if="!details.show_title">
-                <li class="list-group-item" v-for="movie in movies" @click="setDetails(movie)">
+              <ul class="list-group" v-if="!details.show_title">
+                <li class="list-group-item" v-for="movie in movies">
                   <img :src="movie.poster" height="150">
                   <h4>{{movie.show_title}}</h4>
+                  <button @click="clearDetails">BACK</button>
+                  <button @click="setDetails(movie)">View Details</button>
+                  <button @click="addToMyWatchlist(movie)">Add to My Watchlist</button>
+
                 </li>
               </ul>
             </div>
@@ -70,6 +74,32 @@
           </div>
         </div>
       </div>
+
+
+      <div class="col-sm-6">
+        <div class="panel panel-danger">
+          <div class="panel-heading">
+           <center> <h3>My Watchlist</h3> <center>
+            <p>You have {{myWatchlist.length}} in My Watchlist</p>
+          </div>
+          <div class="panel-body">
+            <div v-if="movies.length > 0">
+              <ul class="list-group">
+                <li class="list-group-item" v-for="movie in myWatchlist">
+                  <img :src="movie.poster" height="150">
+                  <h4>{{movie.show_title}}</h4>
+                  <button @click="setDetails(movie)">View Details</button>
+                  <button @click="removeFromMyWatchlist(movie)">Remove from My Watchlist</button>
+                </li>
+              </ul>
+            </div>
+
+          </div>
+        </div>
+      </div>
+
+
+
     </div>
 
 
